@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca Assertiva ISS - LC 116/2003</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <h1 class="title">
+                    <img src="{{ url_for('static', filename='img/pesquisa-global.png') }}" alt="Ícone de Pesquisa" class="title-icon" width="28" height="28">
+                    ISS a Recolher
+                </h1>
+                <button id="themeToggle" class="theme-toggle" title="Alternar tema">
+                    <svg class="theme-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <svg class="theme-icon moon-icon hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+            <p class="subtitle">Consulta rápida e precisa sobre local de recolhimento - LC 116/2003</p>
+        </header>
+
+        <main class="main-content">
+            <form id="consultaForm" class="consulta-form">
+                <div class="form-group">
+                    <label for="servico_id" class="form-label">Selecione o Serviço:</label>
+                    <select id="servico_id" name="servico_id" class="form-select" required>
+                        <option value="">-- Selecione um serviço --</option>
+                        {% for servico in servicos %}
+                        <option value="{{ servico.id }}">{{ servico.codigo }} - {{ servico.descricao }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="municipio_prestador" class="form-label">Município do Prestador:</label>
+                        <input type="text" id="municipio_prestador" name="municipio_prestador" class="form-input" required placeholder="Ex: São Paulo">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="municipio_tomador" class="form-label">Município do Tomador:</label>
+                        <input type="text" id="municipio_tomador" name="municipio_tomador" class="form-input" required placeholder="Ex: Rio de Janeiro">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="municipio_execucao" class="form-label">Município da Execução:</label>
+                        <input type="text" id="municipio_execucao" name="municipio_execucao" class="form-input" required placeholder="Ex: Belo Horizonte">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-analisar">Analisar</button>
+                    <button type="button" id="btnLimpar" class="btn-clear" title="Limpar formulário">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- Modal de Resultado -->
+    <div id="resultadoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Resultado da Consulta</h2>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="resultadoConteudo"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Analisando...</p>
+    </div>
+
+    <!-- Crédito do Desenvolvedor -->
+    <footer class="developer-credit">
+        <div class="credit-separator"></div>
+        <p class="credit-text">®Sistema desenvolvido por <span class="developer-name"> Murilo Miguel</span></p>
+        <p class="credit-subtitle">Systems Analyst and Developer</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
