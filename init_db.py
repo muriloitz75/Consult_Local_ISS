@@ -7,12 +7,17 @@ Cria as tabelas e popula com dados iniciais da LC 116/2003
 
 from app import create_app, db
 from app.models import Servico, Regra
+from config import config
 import os
 
 def init_database():
     """Inicializa o banco de dados com dados da LC 116/2003"""
     
-    app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+    config_name = os.getenv('FLASK_CONFIG') or 'default'
+    app = create_app(config_name)
+    
+    # Inicializar configurações específicas da aplicação
+    config[config_name].init_app(app)
     
     with app.app_context():
         # Criar todas as tabelas
